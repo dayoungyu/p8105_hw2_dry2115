@@ -10,3 +10,15 @@ library(tidyverse)
 ```
 
 
+## Problem 1
+Read in and clean nyc transit data
+
+```{r}
+transit_data = 
+  read_csv(file = "./data/nyc_transit_data.csv") %>%
+  janitor::clean_names() %>%
+  select(line, station_latitude, station_longitude, starts_with("route"), 
+        entry, vending, starts_with("entrance"), ada) %>%
+  mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
+```
+

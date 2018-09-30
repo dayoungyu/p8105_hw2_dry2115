@@ -129,7 +129,31 @@ $(document).ready(function () {
 </div>
 
 
-
+<div id="problem-1" class="section level2">
+<h2>Problem 1</h2>
+<p>Read in and clean nyc transit data</p>
+<pre class="r"><code>transit_data = 
+  read_csv(file = &quot;./data/nyc_transit_data.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;%
+  select(line, station_latitude, station_longitude, starts_with(&quot;route&quot;), 
+        entry, vending, starts_with(&quot;entrance&quot;), ada) %&gt;%
+  mutate(entry = ifelse(entry == &quot;YES&quot;, TRUE, FALSE))</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   `Station Latitude` = col_double(),
+##   `Station Longitude` = col_double(),
+##   Route8 = col_integer(),
+##   Route9 = col_integer(),
+##   Route10 = col_integer(),
+##   Route11 = col_integer(),
+##   ADA = col_logical(),
+##   `Free Crossover` = col_logical(),
+##   `Entrance Latitude` = col_double(),
+##   `Entrance Longitude` = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+</div>
 
 
 
