@@ -19,7 +19,7 @@ transit_df =
   read_csv(file = "./data/nyc_transit_data.csv") %>%
   janitor::clean_names() %>%
   select(line, station_name, station_latitude, station_longitude, starts_with("route"), 
-        entry, vending, starts_with("entrance"), ada) %>%
+        entry, vending, entrance_type, ada) %>%
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
 ```
 
@@ -40,11 +40,22 @@ stations_df = distinct(transit_df, station_name, line, .keep_all = TRUE)
 
 There are `r distinct_stations` distinct stations in the data set. `r ada_compliant` stations are ADA compliant. The proportion of non-vending stations that allow entry is `r prop_entrance`.
 
-```{r}
 
+```{r}
+transit_tidy_df = gather(transit_df, key = route_number, value = route_name, route1:route11)
+
+  a_stations = 
+    filter(transit_tidy_df, route_name == "A") %>%
+    distinct(station_name, line) %>%
+    nrow()
+  
+  compliant_a_stations = 
+    filter(transit_tidy_df, route_name == "A", ada == TRUE) %>%
+    distinct(station_name, line) %>%
+    nrow()
 ```
 
-
+`r a_stations` distinct stations serve the A train. Of those stations `r compliant_a_stations` stations are ADA compliant.
 
 ## Problem 2
 
