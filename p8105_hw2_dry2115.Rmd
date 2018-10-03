@@ -15,7 +15,7 @@ library(tidyverse)
 Read in and clean nyc transit data
 
 ```{r}
-transit_data = 
+transit_df = 
   read_csv(file = "./data/nyc_transit_data.csv") %>%
   janitor::clean_names() %>%
   select(line, station_name, station_latitude, station_longitude, starts_with("route"), 
@@ -23,7 +23,26 @@ transit_data =
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
 ```
 
-The data set _transit data_ contains information on entrance specifications as well as available routes and ADA compliancy for each subway station in New York City. The variables included are: `r names(transit_data)`. These variables were specifically selected from the parent NYC_Transit_Subway_Entrance_And_Exit_Data dataset. The janitor function was used to clean the variable names and the entry variable was converted from character type to logical. The dimensions of _transit data_ are `r ncol(transit_data)` columns by `r nrow(transit_data)` rows. These data are not tidy because the route1-route11 columns should be collapsed into one column.
+The data set _transit df_ contains information on entrance specifications as well as available routes and ADA compliancy for each subway station in New York City. The variables included are: `r names(transit_df)`. These variables were specifically selected from the parent NYC_Transit_Subway_Entrance_And_Exit_Data dataset. The janitor function was used to clean the variable names and the entry variable was converted from character type to logical. The dimensions of _transit df_ are `r ncol(transit_df)` columns by `r nrow(transit_df)` rows. These data are not tidy because the route1-route11 columns should be collapsed into one column.
+
+
+
+```{r}
+stations_df = distinct(transit_df, station_name, line, .keep_all = TRUE)
+  distinct_stations = nrow(stations_df)
+  ada_compliant = nrow(filter(stations_df, ada == TRUE))
+  
+  without_vending = nrow(filter(stations_df, vending == "NO"))
+  entrance_without_vending = nrow(filter(stations_df, vending == "NO", entry == TRUE))
+  prop_entrance = round((entrance_without_vending / without_vending), digits = 3)
+  
+```
+
+There are `r distinct_stations` distinct stations in the data set. `r ada_compliant` stations are ADA compliant. The proportion of non-vending stations that allow entry is `r prop_entrance`.
+
+```{r}
+
+```
 
 
 
@@ -36,7 +55,7 @@ The data set _transit data_ contains information on entrance specifications as w
 
 
 
-# Problem 3
+## Problem 3
 
 install p8105 data package
 ```{r}
