@@ -1,8 +1,8 @@
 ---
 title: "P8105_hw2_dry2115"
 author: "Dayoung Yu"
-date: 2018-10-04
-output: html_document
+date: 2018-10-05
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,14 +11,40 @@ library(tidyverse)
 
 
 ## Problem 1
+
 Read in and clean nyc transit data
 
 ```{r}
 transit_data = 
   read_csv(file = "./data/nyc_transit_data.csv") %>%
   janitor::clean_names() %>%
-  select(line, station_latitude, station_longitude, starts_with("route"), 
+  select(line, station_name, station_latitude, station_longitude, starts_with("route"), 
         entry, vending, starts_with("entrance"), ada) %>%
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
+```
+
+The data set _transit data_ contains information on entrance specifications as well as available routes and ADA compliancy for each subway station in New York City. The variables included are: `r names(transit_data)`. These variables were specifically selected from the parent NYC_Transit_Subway_Entrance_And_Exit_Data dataset. The janitor function was used to clean the variable names and the entry variable was converted from character type to logical. The dimensions of _transit data_ are `r ncol(transit_data)` columns by `r nrow(transit_data)` rows. These data are not tidy because the route1-route11 columns should be collapsed into one column.
+
+
+
+## Problem 2
+
+```{r}
+
+```
+
+
+
+
+# Problem 3
+
+install p8105 data package
+```{r}
+devtools::install_github("p8105/p8105.datasets")
+```
+
+
+```{r}
+
 ```
 
