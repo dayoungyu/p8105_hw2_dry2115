@@ -59,7 +59,7 @@ transit_tidy_df = gather(transit_df, key = route_number, value = route_name, rou
 
 ## Problem 2
 
-Read in and clean Mr. Trash Wheels data:
+Read and clean Mr. Trash Wheels data:
 ```{r}
 library(readxl)
 
@@ -71,10 +71,29 @@ trash_df =
     sports_balls = as.integer(round(sports_balls, digits = 0))
   )
 
+```
+
+Read and clean precipation data:
+```{r}
+prcp16_df = (
+  read_excel("./data/trashwheel_data_updated.xlsx", sheet = 5, range = cell_rows(2:14)) %>%
+  janitor::clean_names() %>%
+  rename(total_prcp = total) %>%
+  mutate(year = 2016))
+
+prcp17_df = (
+  read_excel("./data/trashwheel_data_updated.xlsx", sheet = 4, range = cell_rows(2:14)) %>%
+  janitor::clean_names() %>%
+  rename(total_prcp = total) %>%
+  mutate(year = 2017))
 
 ```
 
+Combine precipation data from 2016 and 2017:
 
+```{r}
+
+```
 
 
 ## Problem 3
