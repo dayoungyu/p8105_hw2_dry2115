@@ -14,7 +14,7 @@ library(tidyverse)
 
 Read and clean nyc transit data:
 
-```{r}
+```{r message = FALSE}
 transit_df = 
   read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
   janitor::clean_names() %>%
@@ -103,7 +103,7 @@ The Mr. Trash Wheel data set had `r nrow(trash_df)` observations. Key variables 
 ## Problem 3
 
 Install p8105 data package:
-```{r}
+```{r message = FALSE}
 devtools::install_github("p8105/p8105.datasets")
 
 library(p8105.datasets)
@@ -148,7 +148,7 @@ brfss_df %>%
 In 2002, the median of the "Excellent" response value was 23.6.
 
 Make a histogram and scatterplot of "Excellent" response values:
-```{r}
+```{r message = FALSE, warning = FALSE}
 brfss_df %>%
   filter(year == "2002") %>%
   ggplot(., aes(x = excellent)) + 
@@ -174,7 +174,7 @@ ny = (rbind(new_york, queens) %>%
 ggplot(ny, aes(x = year, y = excellent, color = County)) +
     geom_point() + 
     labs(
-      title = "Proportion of 'Excellent' response values in New York County and Queens County",
+      title = "Proportion of 'Excellent' response values in New York and Queens County",
       x = "Year",
       y = "Proportion of 'Excellent' respones values"
     ) + 
