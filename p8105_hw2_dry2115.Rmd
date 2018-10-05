@@ -98,6 +98,7 @@ prcp1617_df = (
 
 ```
 
+The Mr. Trash Wheel data set had `r nrow(trash_df)` observations. The combined 2016 and 2017 precipitation data set had `r nrow(prcp1617_df)` observations. The total precipitation in 2017 was `r sum(prcp17_df$total_prcp)` inches. The median number of sports balls in a dumpster in 2016 was `r median(filter(trash_df, year == "2016")$sports_balls)`.
 
 ## Problem 3
 
