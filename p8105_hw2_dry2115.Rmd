@@ -55,7 +55,7 @@ transit_tidy_df = gather(transit_df, key = route_number, value = route_name, rou
     nrow()
 ```
 
-`r a_stations` distinct stations serve the A train. Of those stations `r compliant_a_stations` stations are ADA compliant.
+`r a_stations` distinct stations serve the A train. Of those stations, `r compliant_a_stations` stations are ADA compliant.
 
 ## Problem 2
 
@@ -73,7 +73,7 @@ trash_df =
 
 ```
 
-Read and clean precipation data:
+Read and clean precipitation data:
 ```{r}
 prcp16_df = (
   read_excel("./data/trashwheel_data_updated.xlsx", sheet = 5, range = cell_rows(2:14)) %>%
@@ -92,6 +92,9 @@ prcp17_df = (
 Combine precipation data from 2016 and 2017:
 
 ```{r}
+prcp1617_df = (
+  bind_rows(prcp16_df, prcp17_df) %>%
+  mutate(month = month.name[month]))
 
 ```
 
@@ -101,10 +104,22 @@ Combine precipation data from 2016 and 2017:
 Install p8105 data package:
 ```{r}
 devtools::install_github("p8105/p8105.datasets")
+
+library(p8105.datasets)
+data(brfss_smart2010)
 ```
 
-
+Clean brfss data
 ```{r}
-
+brfss_df = (
+  brfss_smart2010 %>%
+  janitor::clean_names() %>%
+  filter(topic == "Overall Health") %>%
+  select(year, locationabbr, locationdesc, response, data_value) %>%
+  spread(key = response, value = data_value) %>%
+  janitor::clean_names() %>%
+  mutate(excellent_or_very_good = (excellent + very_good)))
+  
+  
 ```
 
