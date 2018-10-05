@@ -16,14 +16,14 @@ Read and clean nyc transit data:
 
 ```{r}
 transit_df = 
-  read_csv(file = "./data/nyc_transit_data.csv") %>%
+  read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
   janitor::clean_names() %>%
   select(line, station_name, station_latitude, station_longitude, starts_with("route"), 
         entry, vending, entrance_type, ada) %>%
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
 ```
 
-The data set _transit df_ contains information on entrance specifications as well as available routes and ADA compliancy for each subway station in New York City. The variables included are: `r names(transit_df)`. These variables were specifically selected from the parent NYC_Transit_Subway_Entrance_And_Exit_Data dataset. The janitor function was used to clean the variable names and the entry variable was converted from character type to logical. The dimensions of _transit df_ are `r ncol(transit_df)` columns by `r nrow(transit_df)` rows. These data are not tidy because the route1-route11 columns should be collapsed into one column.
+The data set *transit_df* contains information on entrance specifications as well as available routes and ADA compliancy for each subway station in New York City. The variables included are: `r names(transit_df)`. These variables were specifically selected from the parent NYC_Transit_Subway_Entrance_And_Exit_Data dataset. The janitor function was used to clean the variable names and the entry variable was converted from character type to logical. The dimensions of *transit_df* are `r ncol(transit_df)` columns by `r nrow(transit_df)` rows. These data are not tidy because the route1-route11 columns should be collapsed into one column.
 
 
 
@@ -64,7 +64,7 @@ Read and clean Mr. Trash Wheels data:
 library(readxl)
 
 trash_df = 
-  read_excel("./data/trashwheel_data_updated.xlsx", sheet = 1, range = cell_cols("A:N")) %>%
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("A:N")) %>%
   janitor::clean_names() %>%
   filter(dumpster != is.na(dumpster)) %>%
   mutate(
@@ -76,13 +76,13 @@ trash_df =
 Read and clean precipitation data:
 ```{r}
 prcp16_df = (
-  read_excel("./data/trashwheel_data_updated.xlsx", sheet = 5, range = cell_rows(2:14)) %>%
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, range = cell_rows(2:14)) %>%
   janitor::clean_names() %>%
   rename(total_prcp = total) %>%
   mutate(year = 2016))
 
 prcp17_df = (
-  read_excel("./data/trashwheel_data_updated.xlsx", sheet = 4, range = cell_rows(2:14)) %>%
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, range = cell_rows(2:14)) %>%
   janitor::clean_names() %>%
   rename(total_prcp = total) %>%
   mutate(year = 2017))
@@ -98,7 +98,7 @@ prcp1617_df = (
 
 ```
 
-The Mr. Trash Wheel data set had `r nrow(trash_df)` observations. The combined 2016 and 2017 precipitation data set had `r nrow(prcp1617_df)` observations. The total precipitation in 2017 was `r sum(prcp17_df$total_prcp)` inches. The median number of sports balls in a dumpster in 2016 was `r median(filter(trash_df, year == "2016")$sports_balls)`.
+The Mr. Trash Wheel data set had `r nrow(trash_df)` observations. Key variables in this data set are the dates on which trash data was collected, the weight of trash in tons, the diffferent types of trash collected, and the number of homes powered by the waste energe. The median number of sports balls in a dumpster in 2016 was `r median(filter(trash_df, year == "2016")$sports_balls)`. The combined 2016 and 2017 precipitation data set had `r nrow(prcp1617_df)` observations. Key variables in this data set are month, year, and the total amount of precipitation in inches per month. The total precipitation in 2017 was `r sum(prcp17_df$total_prcp)` inches. 
 
 ## Problem 3
 
