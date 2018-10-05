@@ -12,7 +12,7 @@ library(tidyverse)
 
 ## Problem 1
 
-Read in and clean nyc transit data
+Read and clean nyc transit data:
 
 ```{r}
 transit_df = 
@@ -109,7 +109,7 @@ library(p8105.datasets)
 data(brfss_smart2010)
 ```
 
-Clean brfss data
+Clean brfss data:
 ```{r}
 brfss_df = (
   brfss_smart2010 %>%
@@ -120,6 +120,18 @@ brfss_df = (
   janitor::clean_names() %>%
   mutate(excellent_or_very_good = (excellent + very_good)))
   
-  
 ```
 
+Calculate location stats: 
+```{r}
+distinct_locations = nrow(distinct(brfss_df, locationdesc))
+distinct_state = nrow(distinct(brfss_df, locationabbr))
+
+brfss_df %>%
+  group_by(locationabbr) %>%
+  summarize(n = n()) %>%
+  filter(min_rank(desc(n)) < 2)
+
+```
+
+In the BRFSS SMART 2010 data, there are `r distinct_locations` distinct locations. Since there are `r distinct_state` distinct states (including DC) in the data, every state is represented. New Jersey was the state that was observed the most.
