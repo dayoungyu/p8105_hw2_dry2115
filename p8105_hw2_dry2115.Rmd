@@ -156,6 +156,28 @@ brfss_df %>%
       title = "`Excellent` response values in 2002",
       x = "`Excellent` response values",
       y = "Count")
+
+
+new_york = 
+  brfss_df %>%
+  filter(locationdesc == "NY - New York County")
+
+queens = 
+  brfss_df %>%
+  filter(locationdesc == "NY - Queens County")
+
+ny = (rbind(new_york, queens) %>%
+        rename(County = locationdesc))
+  
+
+ggplot(ny, aes(x = year, y = excellent, color = County)) +
+    geom_point() + 
+    labs(
+      title = "Proportion of 'Excellent' response values in New York County and Queens County",
+      x = "Year",
+      y = "Proportion of 'Excellent' respones values"
+    ) + 
+    theme(legend.position = "bottom")
 ```
 
 
